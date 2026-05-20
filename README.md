@@ -20,30 +20,33 @@
 
 ### 1. Клонировать репозиторий
 
+```bash
 git clone https://github.com/your-username/notification-service.git
 cd notification-service
+```
 
 ### 2. Настроить окружение
-
+```bash
 cp docker_notifs/.env.example docker_notifs/.env
-
+```
 ### 3. Запустить контейнеры
-
+```bash
 cd docker_notifs
-docker-compose up -d
-
+docker compose up -d
+```
 ### 4. Установить зависимости Laravel
-
+```bash
 docker exec -it notifs-php-fpm sh
 composer install
 php artisan migrate
 php artisan key:generate
 exit
+```
 
 ### 5. Запустить воркера
-
+```bash
 docker exec -it notifs-php-fpm php artisan rabbitmq:work notifications
-
+```
 ## API Документация
 
 После запуска сервиса документация доступна по адресу:
@@ -94,13 +97,13 @@ Mock Provider (SMS/Email)
 - PostgreSQL для хранения статусов
 
 ## Запуск тестов
-
+```bash
 docker exec -it notifs-php-fpm php artisan test
-
+```
 Или конкретный тест:
-
+```bash
 docker exec -it notifs-php-fpm php artisan test --filter BroadcastTest
-
+```
 ## Переменные окружения
 
 Создайте файл .env в директории docker_notifs/:
