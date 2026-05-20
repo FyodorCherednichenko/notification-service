@@ -32,14 +32,19 @@ cp docker_notifs/.env.example docker_notifs/.env
 ### 3. Запустить контейнеры
 ```bash
 cd docker_notifs
+export MY_UID=$(id -u) MY_GID=$(id -g)
 docker compose up -d
 ```
 ### 4. Установить зависимости Laravel
 ```bash
-docker exec -it -u root notifs-php-fpm sh
-composer install
-exit
 docker exec -it notifs-php-fpm sh
+composer install
+
+# если будет ошибка bootstrap/cache directoey must be present and writable то создайте ее командой
+mkdir bootstrap/cache
+# и потом запустите 
+composer dump-autoload
+
 php artisan migrate
 php artisan key:generate
 exit
