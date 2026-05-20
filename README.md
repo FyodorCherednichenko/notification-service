@@ -36,8 +36,10 @@ docker compose up -d
 ```
 ### 4. Установить зависимости Laravel
 ```bash
-docker exec -it notifs-php-fpm sh
+docker exec -it -u root notifs-php-fpm sh
 composer install
+exit
+docker exec -it notifs-php-fpm sh
 php artisan migrate
 php artisan key:generate
 exit

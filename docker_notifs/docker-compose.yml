@@ -40,6 +40,7 @@ services:
       retries: 3
     volumes:
       - ../core:/var/www/notifs.dev
+    user: "${UID}:${GID}"
     networks:
       - notifs
 
