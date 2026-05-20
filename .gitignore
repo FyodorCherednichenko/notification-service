@@ -1,10 +1,38 @@
 # Laravel
 core/.env
-core/.env.*
+core/.env.testing
 core/vendor/
 core/node_modules/
 core/storage/
 core/bootstrap/cache/
+core/storage/*.key
+core/storage/pail
+core/public/build
+core/public/hot
+core/public/storage
+core/_ide_helper.php
 
 # Docker
 docker_notifs/.env
+
+# IDE
+.DS_Store
+.idea/
+.vscode/
+.cursor/
+.zed/
+
+# Logs
+*.log
+*.log
+
+# Cache
+.phpunit.cache
+.phpactor.json
+.phpunit.result.cache
+
+# Misc
+Thumbs.db
+Homestead.json
+Homestead.yaml
+auth.json

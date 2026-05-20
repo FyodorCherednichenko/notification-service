@@ -118,8 +118,6 @@ RABBIT_PASS=notifs_pass
 
 # Структура проекта
 
-# Структура проекта
-
 ```text
 docker_notifs/
 ├── docker-compose.yml
