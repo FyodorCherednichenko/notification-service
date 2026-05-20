@@ -37,13 +37,16 @@ docker compose up -d
 ```
 ### 4. Установить зависимости Laravel
 ```bash
+
+#что бы не воевать с правами для локал хоста:
+docker exec -it --user root notifs-php-fpm sh
+mkdir -p bootstrap/cache storage/framework/views storage/logs
+chmod -R 777 bootstrap/cache storage
+chown -R www-data:www-data storage bootstrap/cache
+exit
+
 docker exec -it notifs-php-fpm sh
 composer install
-
-# если будет ошибка bootstrap/cache directoey must be present and writable то создайте ее командой
-mkdir bootstrap/cache
-# и потом запустите 
-composer dump-autoload
 
 php artisan migrate
 php artisan key:generate
@@ -51,8 +54,13 @@ exit
 ```
 
 ### 5. Запустить воркера
+
+В двух разных терминалах или фоново:
+
 ```bash
 docker exec -it notifs-php-fpm php artisan rabbitmq:work notifications
+
+docker exec -it notifs-php-fpm php artisan queue:work
 ```
 ## API Документация
 
