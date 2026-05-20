@@ -1,0 +1,68 @@
+networks: 
+  notifs:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ${CONTAINER_PREFIX}-nginx
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+      - ../core:/var/www/notifs.dev
+    ports:
+    - "8083:80"
+    depends_on:
+      - php-fpm
+      - php-worker
+      - postgreeSql
+    networks:
+      - notifs
+
+  rabbit_mq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: ${CONTAINER_PREFIX}-rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASS}
+    networks:
+      - notifs
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+    container_name: ${CONTAINER_PREFIX}-php-fpm
+    healthcheck:
+      test: ["CMD", "php-fpm", "-t"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ../core:/var/www/notifs.dev
+    networks:
+      - notifs
+
+  postgreeSql:
+    image: postgres:17-alpine
+    container_name: ${CONTAINER_PREFIX}-psql
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+    ports:
+      - "5432:5432"
+    volumes:
+      - psql_data:/var/lib/postgresql/data
+    networks:
+      - notifs
+
+  redis:
+    image: redis:alpine
+    container_name: ${CONTAINER_PREFIX}-redis
+    networks:
+      - notifs
+
+volumes:
+  psql_data:

@@ -1,0 +1,10 @@
+# Laravel
+core/.env
+core/.env.*
+core/vendor/
+core/node_modules/
+core/storage/
+core/bootstrap/cache/
+
+# Docker
+docker_notifs/.env
