@@ -13,7 +13,6 @@ services:
     - "8083:80"
     depends_on:
       - php-fpm
-      - php-worker
       - postgreeSql
     networks:
       - notifs
